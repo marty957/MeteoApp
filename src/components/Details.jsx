@@ -49,6 +49,7 @@ const Details = () => {
       {info ? (
         <Container className="text-center mt-4 bg-primary-subtle border border-2 rounded-pill bg-l shadow">
           <h1 className="display-1 fw-bolder">{info.name}</h1>
+
           <h3>{info.weather[0].main}</h3>
           <p>{info.weather[0].description}</p>
 
