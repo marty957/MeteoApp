@@ -84,8 +84,8 @@ const Details = () => {
           <Row>
             {five.slice(0, 8).map((day) => {
               return (
-                <Col xs={6} md={4} key={day.clouds.dt}>
-                  <div className="card-body m-3">
+                <Col xs={6} md={4} key={day.clouds.dt} className="border border-2 border-light rounded shadow">
+                  <div className="card-body m-3 ">
                     <h5 className="card-title mt-1">{day.weather[0]?.description}</h5>
 
                     <p className="card-text mt-1">Temp. Effettiva: {kelvinToCelsius(main.temp)}°C</p>
