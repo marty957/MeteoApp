@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Alert, Col, Container, Row, Spinner } from "react-bootstrap";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 const Details = () => {
@@ -11,6 +11,7 @@ const Details = () => {
 
   const [wind, setWind] = useState({});
   const [five, setFive] = useState([]);
+  const kelvinToCelsius = (kelvin) => (kelvin - 273.15).toFixed(2);
   const fetchSingleCity = () => {
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${params.lat}&lon=${params.lon}&appid=5a56e291256dbb45cfdf5772f7f19f00`)
       .then((resp) => {
@@ -82,20 +83,16 @@ const Details = () => {
           <h4>NELLE PROSSIME ORE</h4>
           <Row>
             {five.slice(0, 8).map((day) => {
-              <Col xs={12} md={2} key={day.clouds.dt_text}>
-                <div className="card-body">
-                  <h5 className="card-title">Card title</h5>
+              return (
+                <Col xs={6} md={4} key={day.clouds.dt}>
+                  <div className="card-body m-3">
+                    <h5 className="card-title mt-1">{day.weather[0]?.description}</h5>
 
-                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" className="card-link">
-                    Card link
-                  </a>
-                  <a href="#" className="card-link">
-                    Another link
-                  </a>
-                </div>
-                ;
-              </Col>;
+                    <p className="card-text mt-1">Temp. Effettiva: {kelvinToCelsius(main.temp)}°C</p>
+                    <p className="card-text">Temp. Percepita: {kelvinToCelsius(main.feel_like)} °C</p>
+                  </div>
+                </Col>
+              );
             })}
           </Row>
         </Container>
