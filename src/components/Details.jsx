@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Spinner } from "react-bootstrap";
+import { Alert, Col, Container, Row, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 const Details = () => {
@@ -10,7 +10,7 @@ const Details = () => {
   const [main, setMain] = useState({});
 
   const [wind, setWind] = useState({});
-  const [five, setFive] = useState({});
+  const [five, setFive] = useState([]);
   const fetchSingleCity = () => {
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${params.lat}&lon=${params.lon}&appid=5a56e291256dbb45cfdf5772f7f19f00`)
       .then((resp) => {
@@ -42,10 +42,8 @@ const Details = () => {
         }
       })
       .then((data) => {
-        if (data) {
-          setFive(data.list);
-          console.log(five);
-        }
+        setFive(data.list);
+        console.log(data.list);
       })
       .catch((err) => {
         console.log(err);
@@ -73,6 +71,33 @@ const Details = () => {
             <strong>Umidita: </strong>
             {main.humidity}%
           </span>
+        </Container>
+      ) : (
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      )}
+      {five.length > 0 ? (
+        <Container className="mt-4">
+          <h4>NELLE PROSSIME ORE</h4>
+          <Row>
+            {five.slice(0, 8).map((day) => {
+              <Col xs={12} md={2} key={day.clouds.dt_text}>
+                <div className="card-body">
+                  <h5 className="card-title">Card title</h5>
+
+                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" className="card-link">
+                    Card link
+                  </a>
+                  <a href="#" className="card-link">
+                    Another link
+                  </a>
+                </div>
+                ;
+              </Col>;
+            })}
+          </Row>
         </Container>
       ) : (
         <Spinner animation="border" role="status">
